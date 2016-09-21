@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -70,9 +71,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        int bt = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH);
-        int btadmin = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_ADMIN);
-        if (bt != PackageManager.PERMISSION_GRANTED || btadmin != PackageManager.PERMISSION_GRANTED ) {
+        int bt = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH);
+        int btadmin = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_ADMIN);
+        int btCoars = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION);
+        int btFine = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+        if (bt+btadmin+btCoars+btFine != PackageManager.PERMISSION_GRANTED ) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{
                             Manifest.permission.BLUETOOTH},
@@ -80,7 +83,16 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{
                             Manifest.permission.BLUETOOTH_ADMIN},
-                    2);System.out.println("werte gesetzt");
+                    2);
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
+                    2);
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION},
+                    2);
+            System.out.println("werte gesetzt");
             adapter.startDiscovery();
 
 
@@ -97,12 +109,16 @@ public class MainActivity extends AppCompatActivity {
             textview.append(data.getAction());
         }
     }
+    @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int [] grantResults){
         switch (requestCode) {
             case 2: {
                 if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //                    continueDoDiscovery();
                 } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        shouldShowRequestPermissionRationale(permissions[0]);
+                    }
                     Toast.makeText(this,
                             "Permission fehler",
                             Toast.LENGTH_LONG).show();
