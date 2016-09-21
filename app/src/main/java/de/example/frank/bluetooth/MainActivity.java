@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -99,6 +100,13 @@ public class MainActivity extends AppCompatActivity {
         }else {
             System.out.println("werte  waren gesetzt gesetzt");
             adapter.startDiscovery();
+        }
+
+        Set keys = mArrayAdapter.keySet();
+        Iterator it = keys.iterator();
+        while(it.hasNext()){
+            String name = it.next().toString();
+            textview.append(name + " // " + mArrayAdapter.get(name));
         }
 
     }
