@@ -53,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 }if(BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)){
                     textview.append("fertig mit suchen");
                     textview.append(""+mArrayAdapter.size());
-
+                    Set keys = mArrayAdapter.keySet();
+                    Iterator it = keys.iterator();
+                    while(it.hasNext()){
+                        String name = it.next().toString();
+                        textview.append(name + " // " + mArrayAdapter.get(name));
+                    }
                 }
             }
         };
@@ -102,12 +107,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.startDiscovery();
         }
 
-        Set keys = mArrayAdapter.keySet();
-        Iterator it = keys.iterator();
-        while(it.hasNext()){
-            String name = it.next().toString();
-            textview.append(name + " // " + mArrayAdapter.get(name));
-        }
+
 
     }
     public void onActivityResult(int requestCode,int resultCode, Intent data){
