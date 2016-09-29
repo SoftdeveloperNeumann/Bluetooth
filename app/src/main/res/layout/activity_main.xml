@@ -18,17 +18,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textview"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginTop="89dp"
         android:id="@+id/input"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentRight="true"
+        android:text="Nur zum Test"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/output"
         android:layout_below="@+id/input"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginTop="67dp" />
 
     <Button
